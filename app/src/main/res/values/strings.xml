@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">User</string>
+    <string name="toolbar_name">Toolbar</string>
+    <string name="dialog_delete_message">Would you like to delete user?</string>
+    <string name="dialog_delete_title">Delete user</string>
+    <string name="dialog_create">Create dialog</string>
+    <string name="dialog_create_ok">OK</string>
+    <string name="dialog_update_title">Update user</string>
+
+
+</resources>

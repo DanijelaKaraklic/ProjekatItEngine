@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.nikolakosmajac.user.R;
+import com.example.nikolakosmajac.user.adapters.MyAdapter;
 import com.example.nikolakosmajac.user.model.User;
 
 import java.util.ArrayList;
@@ -23,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<User> listUsers = new ArrayList<User>();
     ListView listView;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        recyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new MyAdapter(listUsers);
+        recyclerView.setAdapter(mAdapter);
 
 
 
@@ -43,9 +56,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        listView = (ListView)findViewById(R.id.users);
+
+
+
+
+
+
+
+        /*listView = (ListView)findViewById(R.id.users);
         ArrayAdapter<User> adapter = new ArrayAdapter<User>(MainActivity.this,R.layout.list_item,listUsers);
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);*/
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

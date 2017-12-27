@@ -143,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intentAdd = new Intent(MainActivity.this,CreateActivity.class);
                 startActivityForResult(intentAdd,RESULT_CREATE);
-
-
                 break;
         }
 
@@ -167,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
                 listUsers.add(user1);
 
-                //mAdapter.add
+
 
 
 
@@ -219,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 ArrayList<Integer> index = new ArrayList<Integer>();
-                for (User u:listUsers) {
+                for (User u: listUsers) {
                     index.add(u.getIdUser());
                 }
                 for (Integer i:index) {

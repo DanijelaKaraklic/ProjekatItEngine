@@ -28,27 +28,34 @@ public class CreateActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
 
-        EditText editId = (EditText)findViewById(R.id.id_user);
-        EditText editUsername = (EditText)findViewById(R.id.username_user);
-        EditText editPassword = (EditText)findViewById(R.id.pass_user);
-        EditText editName = (EditText)findViewById(R.id.name_user);
-        EditText editSurname = (EditText)findViewById(R.id.surname_user);
-        EditText editAdress = (EditText)findViewById(R.id.adress_user);
-        EditText editImage = (EditText)findViewById(R.id.image_user);
 
-
-        final int id = Integer.parseInt(editId.getText().toString());
-        final String username = editUsername.getText().toString();
-        final String password = editPassword.getText().toString();
-        final String name = editName.getText().toString();
-        final String surname = editSurname.getText().toString();
-        final String adress = editAdress.getText().toString();
-        final String image = editImage.getText().toString();
 
         Button btnReturn = (Button)findViewById(R.id.btn_create_ok);
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                EditText editId = (EditText)findViewById(R.id.id_user);
+                EditText editUsername = (EditText)findViewById(R.id.username_user);
+                EditText editPassword = (EditText)findViewById(R.id.pass_user);
+                EditText editName = (EditText)findViewById(R.id.name_user);
+                EditText editSurname = (EditText)findViewById(R.id.surname_user);
+                EditText editAdress = (EditText)findViewById(R.id.adress_user);
+                EditText editImage = (EditText)findViewById(R.id.image_user);
+
+
+                int id = 0;
+                try {
+                    id = Integer.parseInt(editId.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+                 String username = editUsername.getText().toString();
+                 String password = editPassword.getText().toString();
+                 String name = editName.getText().toString();
+                 String surname = editSurname.getText().toString();
+                 String adress = editAdress.getText().toString();
+                 String image = editImage.getText().toString();
 
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();

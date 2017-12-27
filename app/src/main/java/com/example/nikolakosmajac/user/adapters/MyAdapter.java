@@ -42,7 +42,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder /*implements View.OnClickListener,View.OnLongClickListener*/{
 
         // each data item is just a string in this case
         public TextView txtName;
@@ -145,7 +145,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 inflater.inflate(R.layout.row_layout, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
+
+        vh.txtName = (TextView) v.findViewById(R.id.name);
+        vh.txtSurname = (TextView) v.findViewById(R.id.surname);
+        vh.imgImage = (ImageView) v.findViewById(R.id.image);
+
         return vh;
+
+
+
     }
 
 
@@ -157,6 +165,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+
+
+        holder.txtName.setText(values.get(position).getName().toString());
+        holder.txtSurname.setText(values.get(position).getSurname().toString());
+        holder.imgImage.setImageResource(R.drawable.ic_action_add);
 
 
         holder.bind(values.get(position),listenerShort);

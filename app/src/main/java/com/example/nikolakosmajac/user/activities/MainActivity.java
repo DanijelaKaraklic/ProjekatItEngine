@@ -1,7 +1,6 @@
 package com.example.nikolakosmajac.user.activities;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -50,28 +47,8 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(listUsers);
         recyclerView.setAdapter(mAdapter);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*listView = (ListView)findViewById(R.id.users);
-        ArrayAdapter<User> adapter = new ArrayAdapter<User>(MainActivity.this,R.layout.list_item,listUsers);
-        listView.setAdapter(adapter);*/
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final User user = (User)listView.getItemAtPosition(position);
-
+        recyclerView.setAdapter(new MyAdapter(listUsers,new MyAdapter.OnItemClickListener(){
+            public void onItemClick(final User user){
 
                 final Dialog dialog_update = new Dialog(MainActivity.this);
                 dialog_update.setContentView(R.layout.dialog_update);
@@ -133,26 +110,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
             }
-        });
-     /*   listView.setOnClickListener(new View.OnClickListener() {
+        }));
+
+        recyclerView.setAdapter(new MyAdapter(listUsers, new MyAdapter.OnItemLongClickListener() {
             @Override
-            public void onClick(View v) {
-
-
-
-               *//* Intent intent = new Intent(MainActivity.this,EditActivity.class);
-                Bundle bundle = new Bundle();
-                intent.putExtras(bundle);
-                startActivity(intent);
-*//*
-            }
-        });*/
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
+            public void onItemClick(final User user) {
 
                 final Dialog deleteUser = new Dialog(MainActivity.this);
                 deleteUser.setContentView(R.layout.dialog_delete);
@@ -162,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 btnYes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        User user = (User)listView.getItemAtPosition(position);
+
                         int id = user.getIdUser();
                         if (listUsers.contains(user)){
                             listUsers.remove(user);
@@ -188,33 +152,23 @@ public class MainActivity extends AppCompatActivity {
 
                 deleteUser.show();
 
-                return false;
             }
-        });
-
-
-
-
+        }));
 
 
     }
 
 
     private void refresh() {
-        listView = (ListView) findViewById(R.id.users);
-
-        if (listView != null) {
-            ArrayAdapter<User> adapter = (ArrayAdapter<User>) listView.getAdapter();
-
-            if (adapter != null) {
-
-                   adapter.clear();
-
-                    adapter.addAll(listUsers);
-
-                    adapter.notifyDataSetChanged();
+        recyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
 
 
+        if (recyclerView != null) {
+            RecyclerView.Adapter recyclerAdapter = (RecyclerView.Adapter)recyclerView.getAdapter();
+
+            if (recyclerAdapter != null) {
+                recyclerView.setAdapter(recyclerAdapter);
+                recyclerAdapter.notifyDataSetChanged();
 
             }
         }
@@ -287,5 +241,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refresh();
     }
 }

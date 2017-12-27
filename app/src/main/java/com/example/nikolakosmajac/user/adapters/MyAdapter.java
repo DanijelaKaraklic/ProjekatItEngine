@@ -10,17 +10,44 @@ import android.widget.TextView;
 
 import com.example.nikolakosmajac.user.R;
 import com.example.nikolakosmajac.user.model.User;
+import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private List<User> values;
+    private  List<User> values;
+    private OnItemClickListener listenerShort;
+    private OnItemLongClickListener listenerLong;
+
+
+
+    public interface OnItemClickListener{
+        void onItemClick(User user);
+    }
+
+    public interface OnItemLongClickListener{
+        void onItemClick(User user);
+    }
+
+    public MyAdapter(List<User>users,OnItemClickListener listener){
+        values = users;
+        listenerShort = listener;
+    }
+
+    public MyAdapter(List<User>users,OnItemLongClickListener listener){
+        values = users;
+        listenerLong = listener;
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+
+
+
+
         // each data item is just a string in this case
         public TextView txtName;
         public TextView txtSurname;
@@ -34,6 +61,46 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             txtSurname = (TextView) v.findViewById(R.id.surname);
             imgImage = (ImageView) v.findViewById(R.id.image);
         }
+
+        public void bind(final User user,final OnItemClickListener listener){
+            txtName.setText(user.getName());
+            txtSurname.setText(user.getSurname());
+            Picasso.with(itemView.getContext()).load(user.getImage()).into(imgImage);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(user);
+                }
+            });
+
+
+
+
+
+
+        }
+
+
+        public void bind(final User user,final OnItemLongClickListener listenerLong){
+            txtName.setText(user.getName());
+            txtSurname.setText(user.getSurname());
+            Picasso.with(itemView.getContext()).load(user.getImage()).into(imgImage);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listenerLong.onItemClick(user);
+                }
+            });
+
+
+
+
+
+
+        }
+
     }
 
     public void add(int position, User user) {
@@ -65,24 +132,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return vh;
     }
 
+
+
+
+
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final User user = values.get(position);
-        holder.txtName.setText(user.getName());
-        holder.txtName.setOnClickListener(new View.OnClickListener() {
+
+    /*    holder.txtName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 remove(position);
             }
         });
-
-        holder.txtSurname.setText(user.getSurname());
-
-        holder.imgImage.setImageResource(R.drawable.ic_action_add);
+*/
+        holder.bind(values.get(position),listenerShort);
+        holder.bind(values.get(position),listenerLong);
     }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

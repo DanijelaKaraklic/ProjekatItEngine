@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nikolakosmajac.user.MainActivity">
+    tools:context="com.example.nikolakosmajac.user.activities.MainActivity">
 
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay"
@@ -32,12 +32,12 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
-    <ListView
+   <!-- <ListView
         android:id="@+id/users"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </ListView>
+    </ListView>-->
 
 
 

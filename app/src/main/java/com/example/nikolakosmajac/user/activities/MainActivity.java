@@ -49,6 +49,16 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
 
+        User user1 = new User();
+        user1.setIdUser(1);
+        user1.setUserName("john@gmail.com");
+        user1.setName("John");
+        user1.setSurname("Johnson");
+        user1.setPassword("something");
+        user1.setAdress("Medison Avenue 5");
+        user1.setImage("");
+        listUsers.add(user1);
+
 
         recyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);

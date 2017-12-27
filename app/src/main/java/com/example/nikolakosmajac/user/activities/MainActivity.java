@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<User> listUsers = new ArrayList<User>();
     private User user = new User();
+    private Bundle bundle = new Bundle();
 
 
     private RecyclerView recyclerView;
@@ -59,66 +60,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(new MyAdapter(listUsers,new MyAdapter.OnItemClickListener(){
             public void onItemClick(final User user){
 
-                final Dialog dialog_update = new Dialog(MainActivity.this);
-                dialog_update.setContentView(R.layout.dialog_update);
-                dialog_update.setTitle(R.string.dialog_update_title);
-
-                Button btn_ok = (Button)dialog_update.findViewById(R.id.btn_dialog_ok);
-                btn_ok.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        EditText editUsername = (EditText)dialog_update.findViewById(R.id.username_user);
-                        EditText editPassword = (EditText)dialog_update.findViewById(R.id.pass_user);
-                        EditText editName = (EditText)dialog_update.findViewById(R.id.name_user);
-                        EditText editSurname = (EditText)dialog_update.findViewById(R.id.surname_user);
-                        EditText editAdress = (EditText)dialog_update.findViewById(R.id.adress_user);
-                        EditText editImage = (EditText)dialog_update.findViewById(R.id.image_user);
-
-
-                        String username = editUsername.getText().toString();
-                        if (!username.equals("")){
-                            user.setUserName(username);
-                        }
-
-                        String password = editPassword.getText().toString();
-
-                        if (!password.equals("")){
-                            user.setPassword(password);
-                        }
-                        String name = editName.getText().toString();
-
-                        if (!name.equals("")){
-                            user.setName(name);
-                        }
-                        String surname = editSurname.getText().toString();
-
-                        if (!surname.equals("")){
-                            user.setSurname(surname);
-                        }
-                        String adress = editAdress.getText().toString();
-
-                        if (!adress.equals("")){
-                            user.setAdress(adress);
-                        }
-                        String image = editImage.getText().toString();
-                        if (!image.equals("")){
-                            user.setImage(image);
-                        }
-
-                        refresh();
-
-                        dialog_update.dismiss();
-
-
-                    }
-                });
-
-                dialog_update.show();
-
-
-
+                Intent intentUpdate = new Intent(MainActivity.this,EditActivity.class);
+                bundle.getInt("id");
+                bundle.getString("name");
+                bundle.getString("surname");
+                bundle.getString("password");
+                bundle.getString("username");
+                bundle.getString("image");
+                bundle.getString("adress");
+                startActivityForResult(intentUpdate,RESULT_UPDATE);
 
             }
         }));
@@ -168,36 +118,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void refresh() {
-        //recyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
-
-
-        if (recyclerView != null) {
-
-            recyclerView.setAdapter(new MyAdapter(listUsers));
-            recyclerView.invalidate();
-          /*  mAdapter = new MyAdapter(listUsers);
-            recyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();*/
-
-        }
-    }
-
-
-
-   /* public void addUser(int id, String username, String password, String name, String surname, String adress,String image){
-
-        User user1 = new User();
-        user1.setIdUser(id);
-        user1.setUserName(username);
-        user1.setPassword(password);
-        user1.setName(name);
-        user1.setSurname(surname);
-        user1.setAdress(adress);
-        user1.setImage(image);
-        listUsers.add(user1);
-
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -222,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_CREATE) {
             if(resultCode == RESULT_OK) {
                 Bundle bundle = data.getExtras();
@@ -237,9 +157,66 @@ public class MainActivity extends AppCompatActivity {
 
                 listUsers.add(user1);
 
-                mAdapter.add
+                //mAdapter.add
 
 
+
+            }
+        }else if (requestCode == RESULT_UPDATE){
+            if (resultCode == RESULT_OK){
+                Bundle bundle1 = data.getExtras();
+                User user1 = new User();
+                if (String.valueOf(bundle1.getInt("id")).equals("")){
+                    user1.setIdUser(bundle.getInt("id"));
+                }else{
+                    user1.setIdUser(bundle1.getInt("id"));
+                }
+
+                if (bundle1.getString("name").equals("")){
+                    user1.setName(bundle.getString("name"));
+                }else{
+                    user1.setName(bundle1.getString("name"));
+                }
+
+                if (bundle1.getString("surname").equals("")){
+                    user1.setSurname(bundle.getString("surname"));
+                }else{
+                    user1.setSurname(bundle1.getString("surname"));
+                }
+
+                if (bundle1.getString("password").equals("")){
+                    user1.setPassword(bundle.getString("password"));
+                }else{
+                    user1.setPassword(bundle1.getString("password"));
+                }
+
+                if (bundle1.getString("username").equals("")){
+                    user1.setUserName(bundle.getString("username"));
+                }else{
+                    user1.setUserName(bundle1.getString("username"));
+                }
+
+                if (bundle1.getString("image").equals("")){
+                    user1.setImage(bundle.getString("image"));
+                }else{
+                    user1.setImage(bundle1.getString("image"));
+                }
+
+                if (bundle1.getString("adress").equals("")){
+                    user1.setAdress(bundle.getString("adress"));
+                }else{
+                    user1.setAdress(bundle1.getString("adress"));
+                }
+
+                ArrayList<Integer> index = new ArrayList<Integer>();
+                for (User u:listUsers) {
+                    index.add(u.getIdUser());
+                }
+                for (Integer i:index) {
+                    if (i == user1.getIdUser()){
+                        listUsers.add(user1);
+                    }
+                }
 
             }
         }
@@ -248,6 +225,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         refresh();
+
     }
+
+    private void refresh(){
+        MyAdapter adapter = (MyAdapter)recyclerView.getAdapter();
+        adapter.addNewList(listUsers);
+        adapter.notifyDataSetChanged();
+    }
+
 }

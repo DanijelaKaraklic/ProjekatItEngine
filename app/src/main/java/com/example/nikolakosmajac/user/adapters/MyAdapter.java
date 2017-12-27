@@ -44,10 +44,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-
-
-
-
         // each data item is just a string in this case
         public TextView txtName;
         public TextView txtSurname;
@@ -96,8 +92,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                // Picasso.with(itemView.getContext()).load(user.getImage()).placeholder(R.drawable.ic_action_add).into(imgImage);
                 imgImage.setImageResource(R.drawable.ic_action_add);
             }else{
-                Picasso.with(itemView.getContext()).load(user.getImage()).into(imgImage);
-
+                //Picasso.with(itemView.getContext()).load(user.getImage()).into(imgImage);
+                imgImage.setImageResource(R.drawable.ic_action_add);
             }
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -116,14 +112,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     }
 
+    public void addNewList(List<User> newList){
+        values.clear();
+        values.addAll(newList);
+    }
+
     public void add(int position, User user) {
         values.add(position, user);
         notifyItemInserted(position);
+        notifyDataSetChanged();
     }
 
     public void remove(int position) {
         values.remove(position);
         notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)

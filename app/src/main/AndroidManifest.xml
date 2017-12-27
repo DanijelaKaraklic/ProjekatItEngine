@@ -22,14 +22,13 @@
             android:parentActivityName="com.example.nikolakosmajac.user.activities.MainActivity"
             android:icon="@mipmap/ic_launcher"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="Users">
+            >
 
         </activity>
 
         <activity android:name="com.example.nikolakosmajac.user.activities.CreateActivity"
             android:parentActivityName="com.example.nikolakosmajac.user.activities.MainActivity"
             android:icon="@mipmap/ic_launcher"
-            android:label="Users"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>

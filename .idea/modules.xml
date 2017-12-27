@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DanijelaKaraklicProjekat.iml" filepath="$PROJECT_DIR$/DanijelaKaraklicProjekat.iml" />
       <module fileurl="file://$PROJECT_DIR$/ProjekatItEngine.iml" filepath="$PROJECT_DIR$/ProjekatItEngine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProjekatItEngine.iml" filepath="$PROJECT_DIR$/ProjekatItEngine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

@@ -65,7 +65,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public void bind(final User user,final OnItemClickListener listener){
             txtName.setText(user.getName());
             txtSurname.setText(user.getSurname());
-            Picasso.with(itemView.getContext()).load(user.getImage()).into(imgImage);
+            if (user.getImage().equals("")){
+                //Picasso.with(itemView.getContext()).load(user.getImage()).placeholder(R.drawable.ic_action_add).into(imgImage);
+                imgImage.setImageResource(R.drawable.ic_action_add);
+
+            }else{
+                Picasso.with(itemView.getContext()).load(user.getImage()).into(imgImage);
+
+            }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,7 +92,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public void bind(final User user,final OnItemLongClickListener listenerLong){
             txtName.setText(user.getName());
             txtSurname.setText(user.getSurname());
-            Picasso.with(itemView.getContext()).load(user.getImage()).into(imgImage);
+            if (user.getImage().equals("")){
+               // Picasso.with(itemView.getContext()).load(user.getImage()).placeholder(R.drawable.ic_action_add).into(imgImage);
+                imgImage.setImageResource(R.drawable.ic_action_add);
+            }else{
+                Picasso.with(itemView.getContext()).load(user.getImage()).into(imgImage);
+
+            }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -142,13 +155,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-    /*    holder.txtName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                remove(position);
-            }
-        });
-*/
+
         holder.bind(values.get(position),listenerShort);
         holder.bind(values.get(position),listenerLong);
     }

@@ -1,6 +1,7 @@
 package com.example.nikolakosmajac.user.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,10 +20,18 @@ import com.example.nikolakosmajac.user.model.User;
 
 import java.util.ArrayList;
 
+import static android.R.attr.data;
+
+
 public class MainActivity extends AppCompatActivity {
 
+    public static int RESULT_CREATE = 1;
+    public static int RESULT_UPDATE = 2;
+
+
     ArrayList<User> listUsers = new ArrayList<User>();
-    ListView listView;
+    private User user = new User();
+
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -160,23 +169,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void refresh() {
-        recyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
+        //recyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
 
 
         if (recyclerView != null) {
-            RecyclerView.Adapter recyclerAdapter = (RecyclerView.Adapter)recyclerView.getAdapter();
 
-            if (recyclerAdapter != null) {
-                recyclerView.setAdapter(recyclerAdapter);
-                recyclerAdapter.notifyDataSetChanged();
+            recyclerView.setAdapter(new MyAdapter(listUsers));
+            recyclerView.invalidate();
+          /*  mAdapter = new MyAdapter(listUsers);
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();*/
 
-            }
         }
     }
 
 
 
-    public void addUser(int id, String username, String password, String name, String surname, String adress,String image){
+   /* public void addUser(int id, String username, String password, String name, String surname, String adress,String image){
 
         User user1 = new User();
         user1.setIdUser(id);
@@ -187,7 +196,8 @@ public class MainActivity extends AppCompatActivity {
         user1.setAdress(adress);
         user1.setImage(image);
         listUsers.add(user1);
-    }
+
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -201,46 +211,38 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_add:
 
-                final Dialog dialog_create = new Dialog(MainActivity.this);
-                dialog_create.setContentView(R.layout.dialog_create);
-                dialog_create.setTitle(R.string.dialog_create);
-
-                Button btn_ok = (Button) dialog_create.findViewById(R.id.btn_dialog_ok);
-                btn_ok.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        EditText editId = (EditText)dialog_create.findViewById(R.id.id_user);
-                        EditText editUsername = (EditText)dialog_create.findViewById(R.id.username_user);
-                        EditText editPassword = (EditText)dialog_create.findViewById(R.id.pass_user);
-                        EditText editName = (EditText)dialog_create.findViewById(R.id.name_user);
-                        EditText editSurname = (EditText)dialog_create.findViewById(R.id.surname_user);
-                        EditText editAdress = (EditText)dialog_create.findViewById(R.id.adress_user);
-                        EditText editImage = (EditText)dialog_create.findViewById(R.id.image_user);
+                Intent intentAdd = new Intent(MainActivity.this,CreateActivity.class);
+                startActivityForResult(intentAdd,RESULT_CREATE);
 
 
-                        int id = Integer.parseInt(editId.getText().toString());
-                        String username = editUsername.getText().toString();
-                        String password = editPassword.getText().toString();
-                        String name = editName.getText().toString();
-                        String surname = editSurname.getText().toString();
-                        String adress = editAdress.getText().toString();
-                        String image = editImage.getText().toString();
-
-
-                        addUser(id,username,password,name,surname,adress,image);
-                        refresh();
-
-                        dialog_create.dismiss();
-
-                    }
-                });
-
-                dialog_create.show();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_CREATE) {
+            if(resultCode == RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                User user1 = new User();
+                user1.setIdUser(bundle.getInt("id"));
+                user1.setName(bundle.getString("name"));
+                user1.setSurname(bundle.getString("surname"));
+                user1.setPassword(bundle.getString("password"));
+                user1.setUserName(bundle.getString("username"));
+                user1.setImage(bundle.getString("image"));
+                user1.setAdress(bundle.getString("adress"));
+
+                listUsers.add(user1);
+
+                mAdapter.add
+
+
+
+            }
+        }
     }
 
     @Override
